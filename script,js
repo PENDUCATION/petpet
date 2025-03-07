@@ -1,0 +1,38 @@
+let pendulum;
+let resetButton, stopButton;
+let running = true;
+
+function setup() {
+  createCanvas(600, 400);
+  pendulum = new Pendulum(width / 2, 50, 150);
+
+  resetButton = createButton('Reset');
+  resetButton.position(20, 20);
+  resetButton.mousePressed(resetPendulum);
+
+   stopButton = createButton('Pause/Resume');
+  stopButton.position(80, 20);
+  stopButton.mousePressed(toggleRunning)
+
+function draw() {
+  background(200, 220, 255);
+  fill(50);
+  textSize(16);
+  text("Pendulum Simulation", 20, height - 20);
+
+  if (running) {
+    pendulum.update();
+  }
+  pendulum.display();
+}
+
+function resetPendulum() {
+  pendulum.angle = PI / 4;
+  pendulum.angleVelocity = 0;
+}
+
+function toggleRunning() {
+  running = !running;
+}
+
+class Pendulum [
