@@ -10,9 +10,10 @@ function setup() {
   resetButton.position(20, 20);
   resetButton.mousePressed(resetPendulum);
 
-   stopButton = createButton('Pause/Resume');
+  stopButton = createButton('Pause/Resume');
   stopButton.position(80, 20);
-  stopButton.mousePressed(toggleRunning)
+  stopButton.mousePressed(toggleRunning);
+}
 
 function draw() {
   background(200, 220, 255);
@@ -35,4 +36,30 @@ function toggleRunning() {
   running = !running;
 }
 
-class Pendulum [
+class Pendulum {
+  constructor(x, y, length) {
+    this.origin = createVector(x, y);
+    this.length = length;
+    this.angle = PI / 4;
+    this.angleVelocity = 0;
+    this.angleAcceleration = 0;
+    this.gravity = 0.4;
+  }
+
+  update() {
+    this.angleAcceleration = (-this.gravity / this.length) * sin(this.angle);
+    this.angleVelocity += this.angleAcceleration;
+    this.angleVelocity *= 0.99; // Damping effect
+    this.angle += this.angleVelocity;
+  }
+
+  display() {
+    let x = this.origin.x + this.length * sin(this.angle);
+    let y = this.origin.y + this.length * cos(this.angle);
+    stroke(0);
+    strokeWeight(3);
+    line(this.origin.x, this.origin.y, x, y);
+    fill(255, 0, 0);
+    ellipse(x, y, 30, 30);
+  }
+}
