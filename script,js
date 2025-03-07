@@ -4,14 +4,14 @@ let running = true;
 
 function setup() {
   createCanvas(600, 400);
-  pendulum = new Pendulum(width / 2, 50, 150);
+  pendulum = new Pendulum(width / 2, 100, 150);
 
   resetButton = createButton('Reset');
   resetButton.position(20, 20);
   resetButton.mousePressed(resetPendulum);
 
   stopButton = createButton('Pause/Resume');
-  stopButton.position(80, 20);
+  stopButton.position(100, 20);
   stopButton.mousePressed(toggleRunning);
 }
 
@@ -49,16 +49,24 @@ class Pendulum {
   update() {
     this.angleAcceleration = (-this.gravity / this.length) * sin(this.angle);
     this.angleVelocity += this.angleAcceleration;
-    this.angleVelocity *= 0.99; // Damping effect
+    this.angleVelocity *= 0.995; // Damping effect
     this.angle += this.angleVelocity;
   }
 
   display() {
     let x = this.origin.x + this.length * sin(this.angle);
     let y = this.origin.y + this.length * cos(this.angle);
-    stroke(0);
-    strokeWeight(3);
+    
+    // Draw pivot point
+    fill(0);
+    ellipse(this.origin.x, this.origin.y, 10, 10);
+    
+    // Draw swinging arm (thicker line)
+    stroke(50);
+    strokeWeight(6);
     line(this.origin.x, this.origin.y, x, y);
+    
+    // Draw pendulum bob
     fill(255, 0, 0);
     ellipse(x, y, 30, 30);
   }
